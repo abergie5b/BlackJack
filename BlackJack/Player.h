@@ -1,3 +1,6 @@
+#ifndef __PLAYER_H_
+#define __PLAYER_H_
+
 #include <vector>
 
 #include "Hand.h"
@@ -25,3 +28,4 @@ private:
 	short unsigned int cash;
 };
 
+#endif

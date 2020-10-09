@@ -12,7 +12,8 @@ void BlackJack::Play(short unsigned int nPlayers)
     Dealer dealer;
     for (int x = 0; x < nPlayers; x++)
     {
-        dealer.AddPlayer(Player("Player"));
+        Player player("Player");
+        dealer.AddPlayer(player);
     }
 	dealer.StartGame();
     std::string playAgain;

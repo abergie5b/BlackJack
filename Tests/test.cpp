@@ -1,6 +1,13 @@
 #include "pch.h"
 
-TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
+#include "../BlackJack/Player.h"
+#include "../BlackJack/Dealer.h"
+
+TEST(TestCaseName, TestPlayerIsBusted) {
+	Player player("Test");
+	player.TakeCard(Card(10, 10, "King", "Clubs"));
+	player.TakeCard(Card(10, 10, "Queen", "Clubs"));
+	player.TakeCard(Card(10, 10, "Jack", "Clubs"));
+	assert(player.IsBusted());
 }
+

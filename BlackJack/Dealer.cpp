@@ -9,7 +9,7 @@ Dealer::Dealer()
 
 }
 
-void Dealer::AddPlayer(Player player)
+void Dealer::AddPlayer(Player& player)
 {
 	players.push_back(player);
 }

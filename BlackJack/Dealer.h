@@ -9,7 +9,7 @@ public:
 	Dealer();
 	void StartGame();
 	void PlayTurn(Player& player);
-	void AddPlayer(Player player);
+	void AddPlayer(Player& player);
 private:
 	void PlayTurn();
 	bool ShouldHit();

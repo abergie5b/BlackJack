@@ -1,3 +1,6 @@
+#ifndef __HAND_H_
+#define __HAND_H_
+
 #include <vector>
 
 #include "Card.h"
@@ -15,4 +18,6 @@ public:
 private:
 	std::vector<Card> cards;
 };
+
+#endif
 

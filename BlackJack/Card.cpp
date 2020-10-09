@@ -27,6 +27,12 @@ Card::Card(const short unsigned int lowvalue, const short unsigned int highvalue
 
 }
 
+Card::Card(const short unsigned int lowvalue, const short unsigned int highvalue, const std::string name, const std::string suite)
+	: lowvalue(lowvalue), highvalue(highvalue), name(name), suite(suite)
+{
+
+}
+
 void Card::SetSuite(std::string suite)
 {
 	this->suite = suite;

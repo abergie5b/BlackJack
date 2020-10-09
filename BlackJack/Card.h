@@ -10,6 +10,7 @@ public:
 	Card(const Card&);
 	Card& operator=(const Card&);
 	Card(const short unsigned int, const short unsigned int, const std::string);
+	Card(const short unsigned int, const short unsigned int, const std::string, const std::string);
 	void SetSuite(std::string);
 	const std::string GetName() const;
 	const std::string GetSuite() const;
