@@ -1,7 +1,8 @@
-#include "BlackJack.h"
+#include "Game.h"
 
 int main()
 {
-    BlackJack bj;
+    BlackJack::Game bj;
     bj.Play(1);
 }
+

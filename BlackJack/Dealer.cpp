@@ -3,127 +3,150 @@
 #include "Dealer.h"
 
 
-Dealer::Dealer()
-	: Player("Dealer"), players(std::vector<Player>()), deck(Deck()), pot(100)
+namespace BlackJack
 {
 
-}
-
-void Dealer::AddPlayer(Player& player)
-{
-	players.push_back(player);
-}
-
-bool Dealer::AllPlayersAreBusted()
-{
-	for (Player& player : players)
-		if (!player.IsBusted())
-			return false;
-	return true;
-}
-
-void Dealer::PlayTurn(Player& player)
-{
-	std::cout << player.GetName() << std::endl;
-	player.PrintHand();
-	while (player.WillHit())
+	Dealer::Dealer()
+		: Player("Dealer"), players(std::vector<Player>()), deck(Deck()), pot(100)
 	{
-		DealHit(player);
+
+	}
+
+	Deck Dealer::GetDeck()
+	{
+		return deck;
+	}
+
+	void Dealer::AddPlayer(Player& player)
+	{
+		players.push_back(player);
+	}
+
+	bool Dealer::AllPlayersAreBusted()
+	{
+		for (Player& player : players)
+			if (!player.IsBusted())
+				return false;
+		return true;
+	}
+
+	void Dealer::PlayTurn(Player& player)
+	{
+		std::cout << player.GetName() << std::endl;
 		player.PrintHand();
-		if (player.IsBusted())
+		while (player.WillHit())
 		{
-			std::cout << player.GetName() << " busts" << std::endl;
-			break;
+			DealHit(player);
+			player.PrintHand();
+			if (player.IsBusted())
+			{
+				std::cout << player.GetName() << " busts" << std::endl;
+				break;
+			}
 		}
 	}
-}
 
-void Dealer::PlayTurn()
-{
-	std::cout << name << std::endl;
-	PrintHand();
-	while (ShouldHit())
+	void Dealer::PlayTurn()
 	{
-		DealHit(*this);
+		std::cout << name << std::endl;
 		PrintHand();
-		if (IsBusted())
+		while (ShouldHit())
 		{
-			std::cout << name << " busts" << std::endl;
-			break;
+			DealHit(*this);
+			PrintHand();
+			if (IsBusted())
+			{
+				std::cout << name << " busts" << std::endl;
+				break;
+			}
 		}
 	}
-}
 
 
-void Dealer::StartGame()
-{
-	DealHands();
-	std::cout << "Dealer" << std::endl;
-	hand.FlipOne();
-	for (Player& player : players)
-		PlayTurn(player);
-	
-	if (!AllPlayersAreBusted())
-		PlayTurn();
-	EndGame();
-};
-
-void Dealer::EndGame()
-{
-	CollectOrDistribute();
-	deck.Collect();
-};
-
-bool Dealer::ShouldHit()
-{
-	return hand.GetDealerValue() <= 16;
-};
-
-void Dealer::DealHands()
-{
-	for (Player& player : players)
+	void Dealer::StartGame()
 	{
-		DealHit(player);
-		DealHit(player);
-	}
+		DealHands();
+		std::cout << "Dealer" << std::endl;
+		hand.FlipOne();
+		for (Player& player : players)
+			PlayTurn(player);
 
-	DealHit(*this);
-	DealHit(*this);
-};
+		if (!AllPlayersAreBusted())
+			PlayTurn();
+		EndGame();
+	};
 
-void Dealer::DealHit(Player& player)
-{
-	Card card = deck.Draw();
-	player.TakeCard(card);
-};
-
-void Dealer::CollectOrDistribute()
-{
-	for (Player& player : players)
+	void Dealer::EndGame()
 	{
-		if (!IsBusted() && (player.IsBusted() || player.GetHandValue() < hand.GetDealerValue()))
+		CollectOrDistribute();
+		if (hand.GetCards().size() <= DECK_SIZE/2)
+			deck.Collect();
+	};
+
+	bool Dealer::ShouldHit()
+	{
+		return hand.GetDealerValue() <= 16;
+	};
+
+	void Dealer::DealHands()
+	{
+		for (Player& player : players)
 		{
-			Collect(player);
+			DealHit(player);
+			DealHit(player);
 		}
-		else if (IsBusted() || (!player.IsBusted() && player.GetHandValue() > hand.GetDealerValue()))
-		{
-			Distribute(player);
-		}
-	}
-};
 
-void Dealer::Collect(Player& player)
-{
-	std::cout << name << " collects " << player.GetAnte() << " from " << player.GetName() << std::endl;
-	pot += player.GetAnte();
-}
+		DealHit(*this);
+		DealHit(*this);
+	};
 
-void Dealer::Distribute(Player& player)
-{
-	if (player.GetAnte() <= pot)
+	void Dealer::DealHit(Player& player)
 	{
-		std::cout << player.GetName() << " collects " << player.GetAnte() << " from " << name << std::endl;
-		pot -= player.GetAnte();
-		player.AddCash(player.GetAnte());
+		Card card = deck.Draw();
+		player.TakeCard(card);
+	};
+
+	bool Dealer::WinsAgainst(Player& player)
+	{
+		return (!IsBusted() && (player.IsBusted() || player.GetHandValue() < hand.GetDealerValue()));
 	}
+
+	bool Dealer::LosesAgainst(Player& player)
+	{
+		return (IsBusted() || (!player.IsBusted() && player.GetHandValue() > hand.GetDealerValue()));
+	}
+
+	void Dealer::CollectOrDistribute()
+	{
+		for (Player& player : players)
+		{
+			if (WinsAgainst(player))
+			{
+				Collect(player);
+			}
+			else if (LosesAgainst(player))
+			{
+				Distribute(player);
+			}
+			// else draw
+		}
+	};
+
+	void Dealer::Collect(Player& player)
+	{
+		std::cout << name << " collects " << player.GetAnte() << " from " << player.GetName() << std::endl;
+		pot += player.GetAnte();
+	}
+
+	void Dealer::Distribute(Player& player)
+	{
+		if (player.GetAnte() <= pot)
+		{
+			std::cout << player.GetName() << " collects " << player.GetAnte() << " from " << name << std::endl;
+			pot -= player.GetAnte();
+			player.AddCash(player.GetAnte());
+		}
+	}
+
 }
+

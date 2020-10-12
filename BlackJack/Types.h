@@ -1,32 +1,65 @@
-#include <string>
-#include <vector>
-
 #include "Card.h"
 
+#include <map>
+#include <string>
 
-const std::vector<std::string> Suites = 
+namespace BlackJack
 {
-	"Hearts",
-	"Diamonds",
-	"Clubs",
-	"Spades"
-};
+	const unsigned short BLACKJACK = 21;
+	const unsigned short DECK_SIZE = 52;
 
+	enum class CardNames
+	{
+		NONE,
+		UNUSED,
+		TWO,
+		THREE,
+		FOUR,
+		FIVE,
+		SIX,
+		SEVEN,
+		EIGHT,
+		NINE,
+		TEN,
+		JACK,
+		QUEEN,
+		KING,
+		ACE,
+		LAST
+	};
+	const std::map<CardNames, std::string> Cards =
+	{
+		{ CardNames::TWO, "Two" },
+		{ CardNames::THREE, "Three" },
+		{ CardNames::FOUR, "Four" },
+		{ CardNames::FIVE, "Five" },
+		{ CardNames::SIX, "Six" },
+		{ CardNames::SEVEN, "Seven" },
+		{ CardNames::EIGHT, "Eight" },
+		{ CardNames::NINE, "Nine" },
+		{ CardNames::TEN, "Ten" },
+		{ CardNames::JACK, "Jack" },
+		{ CardNames::QUEEN, "Queen" },
+		{ CardNames::KING, "King" },
+		{ CardNames::ACE, "Ace" },
+	};
 
-const std::vector<Card> Cards =
-{
-	Card(2, 2, "Two"),
-	Card(3, 3, "Three"),
-	Card(4, 4, "Four"),
-	Card(5, 5, "Five"),
-	Card(6, 6, "Six"),
-	Card(7, 7, "Seven"),
-	Card(8, 8, "Eight"),
-	Card(9, 9, "Nine"),
-	Card(10, 10, "Ten"),
-	Card(10, 10, "Jack"),
-	Card(10, 10, "Queen"),
-	Card(10, 10, "King"),
-	Card(1, 11, "Ace")
-};
+	enum class SuiteNames
+	{
+		NONE,
+		HEARTS,
+		DIAMONDS,
+		CLUBS,
+		SPADES,
+		LAST
+	};
+	const std::map<SuiteNames, std::string> Suites =
+	{
+		{ SuiteNames::HEARTS, "Hearts" },
+		{ SuiteNames::DIAMONDS, "Diamonds" },
+		{ SuiteNames::CLUBS, "Clubs" },
+		{ SuiteNames::SPADES, "Spades" }
+	};
+
+}
 

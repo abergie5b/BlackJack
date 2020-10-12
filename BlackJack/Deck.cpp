@@ -2,42 +2,52 @@
 #include <time.h>
 
 #include "Deck.h"
-#include "Types.h"
 
-Deck::Deck()
+namespace BlackJack
 {
-	srand(time(0));
-	Collect();
-}
 
-Card Deck::Draw()
-{
-	Card card;
-	if (!cards.empty())
+	Deck::Deck()
 	{
-		card = cards.front();
-		cards.pop_front();
+		srand(time(0));
+		Collect();
 	}
-	return card;
-}
 
-void Deck:: Shuffle()
-{
-	std::random_shuffle(cards.begin(), cards.end());
-};
-
-void Deck::Collect()
-{
-	std::deque<Card> _cards;
-	for (std::string suite : Suites)
+	std::deque<Card> Deck::GetCards()
 	{
-		for (Card c : Cards)
-		{ 
-			c.SetSuite(suite);
-			_cards.push_back(c);
+		return cards;
+	}
+
+	Card Deck::Draw()
+	{
+		Card card;
+		if (!cards.empty())
+		{
+			card = cards.front();
+			cards.pop_front();
 		}
+		return card;
 	}
-	cards = _cards;
-	Shuffle();
-};
+
+	void Deck::Shuffle()
+	{
+		std::random_shuffle(cards.begin(), cards.end());
+	};
+
+	void Deck::Collect()
+	{
+		std::deque<Card> _cards;
+		for (int x = 2; x<(int)CardNames::LAST; x++)
+		{
+			for (int y=1; y<(int)SuiteNames::LAST; y++)
+			{
+				_cards.push_back(Card(
+					CardNames(x), SuiteNames(y))
+				);
+			}
+		}
+		cards = _cards;
+		Shuffle();
+	};
+
+}
 
