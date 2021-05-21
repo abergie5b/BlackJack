@@ -12,8 +12,8 @@ namespace BlackJack
 	{
 	public:
 		std::vector<Card> GetCards();
-		short unsigned int GetValue();
-		short unsigned int GetDealerValue();
+		uint8_t GetValue();
+		uint8_t GetDealerValue();
 		bool IsBusted();
 		void push_back(Card&);
 		void Print();

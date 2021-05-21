@@ -17,20 +17,20 @@ namespace BlackJack
 		bool WillHit();
 		bool IsBusted();
 		void TakeCard(Card&);
-		void SetAnte(short unsigned int);
-		short unsigned int GetAnte();
+		void SetAnte(uint32_t);
+		uint32_t GetAnte();
 		Hand GetHand();
-		short unsigned int GetHandValue();
+		uint8_t GetHandValue();
 		std::string GetName();
-		void AddCash(short unsigned int);
+		void AddCash(uint32_t);
 		void PrintHand();
 
 	protected:
 		std::string name;
 		Hand hand;
 	private:
-		short unsigned int ante;
-		short unsigned int cash;
+		uint32_t ante;
+		uint32_t cash;
 	};
 }
 

@@ -4,12 +4,18 @@ namespace BlackJack
 {
 
 	Card::Card()
-		: name(CardNames::NONE), suite(SuiteNames::NONE), highvalue(0), lowvalue(0)
+		: name(CardNames::NONE), 
+		  suite(SuiteNames::NONE), 
+		  highvalue(0), 
+		  lowvalue(0)
 	{
 	}
 
 	Card::Card(const Card& card)
-		: name(card.name), suite(card.suite), highvalue(card.highvalue), lowvalue(card.lowvalue)
+		: name(card.name), 
+		  suite(card.suite), 
+		  highvalue(card.highvalue), 
+		  lowvalue(card.lowvalue)
 	{
 	}
 
@@ -34,7 +40,7 @@ namespace BlackJack
 		else if (name > CardNames::TEN)
 			highvalue = lowvalue = 10;
 		else
-			highvalue = lowvalue = (unsigned short)name;
+			highvalue = lowvalue = (uint8_t)name;
 	}
 
 	const CardNames Card::GetName() const
@@ -47,13 +53,13 @@ namespace BlackJack
 		return suite;
 	};
 
-	const unsigned short Card::GetLowValue() const
+	const uint8_t Card::GetLowValue() const
 	{
 		return lowvalue;
 	};
 
 
-	const unsigned short Card::GetHighValue() const
+	const uint8_t Card::GetHighValue() const
 	{
 		return highvalue;
 	};

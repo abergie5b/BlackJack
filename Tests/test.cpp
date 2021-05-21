@@ -7,14 +7,16 @@ using namespace BlackJack;
 
 TEST(TestCaseName, DeckInit)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	EXPECT_TRUE(dealer.GetDeck().GetCards().size() == DECK_SIZE);
 }
 
 
 TEST(TestCaseName, TestDealHit1)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player("Test");
 	dealer.DealHit(player);
 	dealer.DealHit(player);
@@ -25,7 +27,8 @@ TEST(TestCaseName, TestDealHit1)
 
 TEST(TestCaseName, TestDealHit2)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player1("Test1");
 	Player player2("Test2");
 	dealer.DealHit(dealer);
@@ -71,7 +74,8 @@ TEST(TestCaseName, TestPlayerIsNotBusted) {
 
 TEST(TestCaseName, TestDealerShouldNotHitAces1)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::SIX, SuiteNames::CLUBS));
 	EXPECT_FALSE(dealer.ShouldHit());
@@ -80,7 +84,8 @@ TEST(TestCaseName, TestDealerShouldNotHitAces1)
 
 TEST(TestCaseName, TestDealerShouldNotHitAces2)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::THREE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::THREE, SuiteNames::HEARTS));
@@ -90,7 +95,8 @@ TEST(TestCaseName, TestDealerShouldNotHitAces2)
 
 TEST(TestCaseName, TestDealerShouldNotHitAces3)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::HEARTS));
 	dealer.TakeCard(Card(CardNames::FIVE, SuiteNames::HEARTS));
@@ -100,7 +106,8 @@ TEST(TestCaseName, TestDealerShouldNotHitAces3)
 
 TEST(TestCaseName, TestDealerShouldHitAces1)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::FIVE, SuiteNames::HEARTS));
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::HEARTS));
 	EXPECT_TRUE(dealer.ShouldHit());
@@ -109,7 +116,8 @@ TEST(TestCaseName, TestDealerShouldHitAces1)
 
 TEST(TestCaseName, TestDealerShouldHitAces2)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::TWO, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::HEARTS));
 	dealer.TakeCard(Card(CardNames::THREE, SuiteNames::HEARTS));
@@ -119,7 +127,8 @@ TEST(TestCaseName, TestDealerShouldHitAces2)
 
 TEST(TestCaseName, TestDealerShouldHitAces3)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::ACE, SuiteNames::HEARTS));
 	dealer.TakeCard(Card(CardNames::FOUR, SuiteNames::HEARTS));
@@ -129,7 +138,8 @@ TEST(TestCaseName, TestDealerShouldHitAces3)
 
 TEST(TestCaseName, PlayerWins)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player("test");
 	player.TakeCard(Card(CardNames::NINE, SuiteNames::CLUBS));
 	player.TakeCard(Card(CardNames::NINE, SuiteNames::HEARTS));
@@ -141,7 +151,8 @@ TEST(TestCaseName, PlayerWins)
 
 TEST(TestCaseName, DealerWins)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player("test");
 	dealer.TakeCard(Card(CardNames::NINE, SuiteNames::CLUBS));
 	dealer.TakeCard(Card(CardNames::NINE, SuiteNames::HEARTS));
@@ -153,7 +164,8 @@ TEST(TestCaseName, DealerWins)
 
 TEST(TestCaseName, Draw)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player("test");
 	dealer.TakeCard(Card(CardNames::EIGHT, SuiteNames::DIAMONDS));
 	dealer.TakeCard(Card(CardNames::EIGHT, SuiteNames::SPADES));
@@ -228,7 +240,8 @@ TEST(TestCaseName, AcesTest4)
 
 TEST(TestCaseName, DealerCollects50PercentDeckSize)
 {
-	Dealer dealer;
+	Game game(1, 2);
+	BlackJack::Dealer dealer(game);
 	Player player("test");
 	for (int x = 0; x < DECK_SIZE / 2; x++)
 		dealer.DealHit(player);

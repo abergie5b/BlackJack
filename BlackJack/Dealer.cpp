@@ -6,10 +6,13 @@
 namespace BlackJack
 {
 
-	Dealer::Dealer()
-		: Player("Dealer"), players(std::vector<Player>()), deck(Deck()), pot(100)
+	Dealer::Dealer(Game& game)
+		: game(game), 
+		  Player("Dealer"), 
+		  players(std::vector<Player>()), 
+		  deck(Deck()), 
+		  pot(100)
 	{
-
 	}
 
 	Deck Dealer::GetDeck()
@@ -62,9 +65,25 @@ namespace BlackJack
 		}
 	}
 
+	void Dealer::GetAntes()
+	{
+		for (Player& player : players)
+		{
+			uint32_t ante = 0;
+			while (ante >= this->game.nMinAnte)
+			{
+				std::string input;
+				std::cout << "Ante: ";
+				std::cin >> input;
+				ante = std::strtol(input.c_str(), 0, 10);
+			}
+			player.SetAnte(ante);
+		}
+	}
 
 	void Dealer::StartGame()
 	{
+		GetAntes();
 		DealHands();
 		std::cout << "Dealer" << std::endl;
 		hand.FlipOne();

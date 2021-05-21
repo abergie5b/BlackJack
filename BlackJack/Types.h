@@ -1,3 +1,6 @@
+#ifndef __TYPES_H_
+#define __TYPES_H_
+
 #include "Card.h"
 
 #include <map>
@@ -5,8 +8,8 @@
 
 namespace BlackJack
 {
-	const unsigned short BLACKJACK = 21;
-	const unsigned short DECK_SIZE = 52;
+	const uint8_t BLACKJACK = 21;
+	const uint8_t DECK_SIZE = 52;
 
 	enum class CardNames
 	{
@@ -63,3 +66,5 @@ namespace BlackJack
 
 }
 
+
+#endif 

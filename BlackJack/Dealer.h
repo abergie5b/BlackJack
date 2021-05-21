@@ -5,14 +5,14 @@
 
 #include "Deck.h"
 #include "Player.h"
+#include "Game.h"
 
 namespace BlackJack
 {
-
 	class Dealer : public Player
 	{
 	public:
-		Dealer();
+		Dealer(Game& game);
 		void StartGame();
 		void PlayTurn(Player& player);
 		void AddPlayer(Player& player);
@@ -25,6 +25,7 @@ namespace BlackJack
 		void DealHit(Player& player);
 		void EndGame();
 	private:
+		void GetAntes();
 		void PlayTurn();
 		bool AllPlayersAreBusted();
 		void DealHands();
@@ -35,7 +36,8 @@ namespace BlackJack
 		//
 		std::vector<Player> players;
 		Deck deck;
-		unsigned int pot;
+		uint32_t pot;
+		Game game;
 	};
 
 }

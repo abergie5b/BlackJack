@@ -1,8 +1,9 @@
-#include "Game.h"
+#include "Dealer.h"
 
 int main()
 {
     BlackJack::Game bj;
-    bj.Play(1);
+    bj.SetOptions();
+    bj.Play();
 }
 

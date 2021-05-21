@@ -6,7 +6,10 @@ namespace BlackJack
 {
 
 	Player::Player(std::string name)
-		: name(name), hand(Hand()), ante(2), cash(100)
+		: name(name), 
+		  hand(Hand()), 
+		  ante(2), 
+		  cash(100)
 	{
 
 	}
@@ -39,17 +42,17 @@ namespace BlackJack
 		hand.push_back(card);
 	};
 
-	short unsigned int Player::GetHandValue()
+	uint8_t Player::GetHandValue()
 	{
 		return hand.GetValue();
 	}
 
-	void Player::SetAnte(short unsigned int ante)
+	void Player::SetAnte(uint32_t ante)
 	{
 		this->ante = ante;
 	};
 
-	short unsigned int Player::GetAnte()
+	uint32_t Player::GetAnte()
 	{
 		return ante;
 	};
@@ -59,7 +62,7 @@ namespace BlackJack
 		return name;
 	};
 
-	void Player::AddCash(short unsigned int cash)
+	void Player::AddCash(uint32_t cash)
 	{
 		this->cash += cash;
 	};

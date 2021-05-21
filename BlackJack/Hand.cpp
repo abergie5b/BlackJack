@@ -14,11 +14,11 @@ namespace BlackJack
 		return cards;
 	};
 
-	short unsigned int Hand::GetValue()
+	uint8_t Hand::GetValue()
 	{
 
-		unsigned short acecount = 0;
-		unsigned short value = 0;
+		uint8_t acecount = 0;
+		uint8_t value = 0;
 		for (Card& card : cards)
 		{
 			if (card.GetName() != CardNames::ACE)
@@ -49,9 +49,9 @@ namespace BlackJack
 		return value;
 	};
 
-	short unsigned int Hand::GetDealerValue()
+	uint8_t Hand::GetDealerValue()
 	{
-		short unsigned int value = 0;
+		uint8_t value = 0;
 		for (Card& card : cards)
 		{
 			if (card.GetName() != CardNames::ACE)
@@ -89,7 +89,7 @@ namespace BlackJack
 
 	void Hand::Print()
 	{
-		std::cout << "Points: " << GetValue() << std::endl;
+		std::cout << "Points: " << unsigned(GetValue()) << std::endl;
 		for (Card& card : cards)
 			Print(card);
 	}
