@@ -82,6 +82,11 @@ namespace BlackJack
 		return GetValue() > 21;
 	};
 
+	void Hand::Discard()
+	{
+		this->cards.clear();
+	}
+
 	void Hand::Print(Card& card)
 	{
 		std::cout << '\t' << Cards.at(card.GetName()) << " of " << Suites.at(card.GetSuite()) << std::endl;

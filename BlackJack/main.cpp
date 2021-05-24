@@ -1,4 +1,4 @@
-#include "Dealer.h"
+#include "Game.h"
 
 int main()
 {

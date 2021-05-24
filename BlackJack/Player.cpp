@@ -6,12 +6,12 @@ namespace BlackJack
 {
 
 	Player::Player(std::string name)
-		: name(name), 
-		  hand(Hand()), 
-		  ante(2), 
-		  cash(100)
+		: Name(name), 
+		  hand(BlackJack::Hand()), 
+		  Ante(0), 
+		  Cash(1000),
+		  HasCurrentTurn(false)
 	{
-
 	}
 
 	void Player::PrintHand()
@@ -47,24 +47,40 @@ namespace BlackJack
 		return hand.GetValue();
 	}
 
+	void Player::DiscardHand()
+	{
+		this->hand.Discard();
+	};
+
 	void Player::SetAnte(uint32_t ante)
 	{
-		this->ante = ante;
+		this->Ante = ante;
 	};
 
 	uint32_t Player::GetAnte()
 	{
-		return ante;
+		return Ante;
 	};
 
 	std::string Player::GetName()
 	{
-		return name;
+		return Name;
 	};
 
 	void Player::AddCash(uint32_t cash)
 	{
-		this->cash += cash;
+		this->Cash += cash;
+	};
+
+	uint32_t Player::GetCash()
+	{
+		return this->Cash;
+	};
+
+
+	bool Player::operator==(const Player& player)
+	{
+		return this->Name == player.Name;
 	};
 
 }

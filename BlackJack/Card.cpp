@@ -53,6 +53,16 @@ namespace BlackJack
 		return suite;
 	};
 
+	const std::string Card::GetCardName() const
+	{
+		return Cards.at(name);
+	}
+
+	const std::string Card::GetSuiteName() const
+	{
+		return Suites.at(suite);
+	}
+
 	const uint8_t Card::GetLowValue() const
 	{
 		return lowvalue;

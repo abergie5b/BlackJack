@@ -8,7 +8,9 @@ namespace BlackJack
 
     Game::Game(uint8_t nPlayers, uint32_t nMinAnte)
         : nPlayers(nPlayers),
-          nMinAnte(nMinAnte)
+          nMinAnte(nMinAnte),
+          dealer(Dealer(this)),
+		  IsPlaying(false)
     {
     }
 
@@ -16,7 +18,33 @@ namespace BlackJack
     {
         this->nPlayers = 0;
         this->nMinAnte = 0;
+        this->dealer = Dealer(this);
+        this->IsPlaying = false;
     };
+
+    Game::Game(Player& player)
+        : nPlayers(0),
+          nMinAnte(0),
+          dealer(Dealer(this)),
+          IsPlaying(false)
+    {
+        this->AddPlayer(player);
+    };
+
+    void Game::SetMinAnte(uint32_t min)
+    {
+        this->nMinAnte = min;
+    }
+
+	Player* Game::GetPlayer(const std::string& name)
+    {
+        for (Player& player : this->dealer.players)
+        {
+            if (player.Name == name)
+                return &player;
+        }
+        return nullptr;
+    }
 
     void Game::SetOptions()
     {
@@ -24,6 +52,12 @@ namespace BlackJack
         std::cout << "#Players: ";
         std::cin >> input;
         this->nPlayers = std::strtol(input.c_str(), 0, 10);
+
+        for (int x = 0; x < nPlayers; x++)
+        {
+            Player player("Player");
+            this->AddPlayer(player);
+        }
 
         std::cout << "Min Ante: ";
         std::cin >> input;
@@ -33,18 +67,36 @@ namespace BlackJack
 
     void Game::Play()
     {
-        Dealer dealer(*this);
-        for (int x = 0; x < nPlayers; x++)
+        std::string playAgain = "y";
+        while (playAgain == "y")
         {
-            Player player("Player");
-            dealer.AddPlayer(player);
+			this->dealer.GetAntes();
+
+            this->IsPlaying = true;
+            dealer.PlayGame();
+            dealer.EndGame();
+            this->IsPlaying = false;
+
+            //
+            std::cout << "Play Again?" << std::endl;
+            std::cin >> playAgain;
         }
-        dealer.StartGame();
-        std::string playAgain;
-        std::cout << "Play Again?" << std::endl;
-        std::cin >> playAgain;
-        if (playAgain == "y")
-            Play();
     };
+
+    std::vector<Player>& Game::GetPlayers()
+    {
+        return this->dealer.players;
+    }
+
+    void Game::AddPlayer(Player& player)
+    {
+        this->dealer.AddPlayer(player);
+        this->nPlayers++;
+    };
+
+    void Game::RemovePlayer(Player& player)
+    {
+        this->dealer.RemovePlayer(player);
+    }
 
 }

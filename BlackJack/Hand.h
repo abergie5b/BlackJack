@@ -19,6 +19,7 @@ namespace BlackJack
 		void Print();
 		void Print(Card&);
 		void FlipOne();
+		void Discard();
 	private:
 		std::vector<Card> cards;
 	};

@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "../BlackJack/Dealer.h"
+#include "../BlackJack/Game.h"
 
 using namespace BlackJack;
 

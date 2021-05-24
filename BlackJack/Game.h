@@ -1,7 +1,7 @@
 #ifndef __GAME_H_
 #define __GAME_H_
 
-class Dealer;
+#include "Dealer.h"
 
 namespace BlackJack
 {
@@ -9,13 +9,21 @@ namespace BlackJack
 	{
 		public:
 			uint32_t nMinAnte;
+			uint8_t nPlayers;
+			Dealer dealer;
+			bool IsPlaying;
 
 			Game();
+			Game(Player& player);
 			Game(uint8_t nPlayers, uint32_t nMinAnte);
+
 			void Play();
 			void SetOptions();
-		private:
-			uint8_t nPlayers;
+			std::vector<Player>& GetPlayers();
+			void AddPlayer(Player& player);
+			void RemovePlayer(Player& player);
+			void SetMinAnte(uint32_t min);
+			Player* GetPlayer(const std::string& name);
 	};
 
 }

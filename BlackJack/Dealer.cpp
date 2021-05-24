@@ -1,18 +1,32 @@
 #include <iostream>
 
 #include "Dealer.h"
+#include "Game.h"
 
 
 namespace BlackJack
 {
+	Dealer::Dealer()
+		: game(nullptr),
+		  Player("Dealer"), 
+		  players(std::vector<Player>()), 
+		  deck(Deck()), 
+		  pot(500000)
+	{
+	}
 
-	Dealer::Dealer(Game& game)
+	Dealer::Dealer(const Game* const game)
 		: game(game), 
 		  Player("Dealer"), 
 		  players(std::vector<Player>()), 
 		  deck(Deck()), 
-		  pot(100)
+		  pot(500000)
 	{
+	}
+
+	const Dealer& Dealer::operator=(const Dealer& dealer)
+	{
+		return dealer;
 	}
 
 	Deck Dealer::GetDeck()
@@ -25,6 +39,23 @@ namespace BlackJack
 		players.push_back(player);
 	}
 
+	void Dealer::RemovePlayer(Player& player)
+	{
+		std::vector<Player>::iterator playerToRemove = players.begin();
+		while (playerToRemove != players.end())
+		{
+			if (playerToRemove->Name == player.Name)
+			{
+				players.erase(playerToRemove);
+				break;
+			}
+			else
+			{
+				playerToRemove++;
+			}
+		}
+	}
+
 	bool Dealer::AllPlayersAreBusted()
 	{
 		for (Player& player : players)
@@ -35,6 +66,7 @@ namespace BlackJack
 
 	void Dealer::PlayTurn(Player& player)
 	{
+		player.HasCurrentTurn = true;
 		std::cout << player.GetName() << std::endl;
 		player.PrintHand();
 		while (player.WillHit())
@@ -47,11 +79,12 @@ namespace BlackJack
 				break;
 			}
 		}
+		player.HasCurrentTurn = false;
 	}
 
 	void Dealer::PlayTurn()
 	{
-		std::cout << name << std::endl;
+		std::cout << Name << std::endl;
 		PrintHand();
 		while (ShouldHit())
 		{
@@ -59,7 +92,7 @@ namespace BlackJack
 			PrintHand();
 			if (IsBusted())
 			{
-				std::cout << name << " busts" << std::endl;
+				std::cout << Name << " busts" << std::endl;
 				break;
 			}
 		}
@@ -70,7 +103,7 @@ namespace BlackJack
 		for (Player& player : players)
 		{
 			uint32_t ante = 0;
-			while (ante >= this->game.nMinAnte)
+			while (ante < this->game->nMinAnte)
 			{
 				std::string input;
 				std::cout << "Ante: ";
@@ -81,9 +114,8 @@ namespace BlackJack
 		}
 	}
 
-	void Dealer::StartGame()
+	void Dealer::PlayGame()
 	{
-		GetAntes();
 		DealHands();
 		std::cout << "Dealer" << std::endl;
 		hand.FlipOne();
@@ -97,7 +129,13 @@ namespace BlackJack
 
 	void Dealer::EndGame()
 	{
-		CollectOrDistribute();
+		CollectOrDistributeAntes();
+		for (Player& player : players)
+		{
+			player.DiscardHand();
+			player.SetAnte(0);
+		}
+		DiscardHand();
 		if (hand.GetCards().size() <= DECK_SIZE/2)
 			deck.Collect();
 	};
@@ -119,10 +157,11 @@ namespace BlackJack
 		DealHit(*this);
 	};
 
-	void Dealer::DealHit(Player& player)
+	Card Dealer::DealHit(Player& player)
 	{
 		Card card = deck.Draw();
 		player.TakeCard(card);
+		return card;
 	};
 
 	bool Dealer::WinsAgainst(Player& player)
@@ -135,33 +174,33 @@ namespace BlackJack
 		return (IsBusted() || (!player.IsBusted() && player.GetHandValue() > hand.GetDealerValue()));
 	}
 
-	void Dealer::CollectOrDistribute()
+	void Dealer::CollectOrDistributeAntes()
 	{
 		for (Player& player : players)
 		{
 			if (WinsAgainst(player))
 			{
-				Collect(player);
+				CollectFrom(player);
 			}
 			else if (LosesAgainst(player))
 			{
-				Distribute(player);
+				DistributeTo(player);
 			}
 			// else draw
 		}
 	};
 
-	void Dealer::Collect(Player& player)
+	void Dealer::CollectFrom(Player& player)
 	{
-		std::cout << name << " collects " << player.GetAnte() << " from " << player.GetName() << std::endl;
+		std::cout << Name << " collects " << player.GetAnte() << " from " << player.GetName() << std::endl;
 		pot += player.GetAnte();
 	}
 
-	void Dealer::Distribute(Player& player)
+	void Dealer::DistributeTo(Player& player)
 	{
 		if (player.GetAnte() <= pot)
 		{
-			std::cout << player.GetName() << " collects " << player.GetAnte() << " from " << name << std::endl;
+			std::cout << player.GetName() << " collects " << player.GetAnte() << " from " << Name << std::endl;
 			pot -= player.GetAnte();
 			player.AddCash(player.GetAnte());
 		}

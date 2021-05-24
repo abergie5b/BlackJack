@@ -14,7 +14,9 @@ namespace BlackJack
 			Card& operator=(const Card&);
 			Card(CardNames, SuiteNames);
 			const CardNames GetName() const;
+			const std::string GetCardName() const;
 			const SuiteNames GetSuite() const;
+			const std::string GetSuiteName() const;
 			const uint8_t GetHighValue() const;
 			const uint8_t GetLowValue() const;
 		private:
